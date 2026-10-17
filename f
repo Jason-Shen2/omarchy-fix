@@ -33,7 +33,9 @@ main() {
   done
   command -v qs >/dev/null || command -v quickshell >/dev/null || die 'Quickshell is missing.'
   [[ -f /usr/share/omarchy/version ]] || die 'The Omarchy runtime is missing.'
-  [[ -f "$HOME/.config/hypr/hyprland.conf" ]] || die 'User desktop configuration is missing.'
+  # Quattro ships Lua configuration; earlier Hyprland releases use .conf.
+  [[ -f "$HOME/.config/hypr/hyprland.lua" || -f "$HOME/.config/hypr/hyprland.conf" ]] ||
+    die 'Neither ~/.config/hypr/hyprland.lua nor hyprland.conf exists.'
   systemctl is-enabled sddm.service >/dev/null || die 'System setup has not enabled SDDM.'
   [[ -L /etc/systemd/system/display-manager.service ]] || die 'The display manager is not configured.'
   [[ -f "$setup" && ! -L "$setup" ]] || die 'The installed root setup helper is missing.'
